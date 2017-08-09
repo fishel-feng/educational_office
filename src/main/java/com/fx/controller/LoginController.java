@@ -14,11 +14,10 @@ public class LoginController {
     /**
      * 起始登录页面
      *
-     * @return
-     * @throws Exception
+     * @return login.jsp
      */
     @RequestMapping(value = "login", method = RequestMethod.GET)
-    public String loginUI() throws Exception {
+    public String loginUI() {
         return "../../login";
     }
 
@@ -27,11 +26,10 @@ public class LoginController {
      * 登录表单提交
      *
      * @param userInfo 用户信息
-     * @return
-     * @throws Exception
+     * @return 重定向到，对应权限主页，没有则回到登录页
      */
     @RequestMapping(value = "login", method = RequestMethod.POST)
-    public String login(UserInfo userInfo) throws Exception {
+    public String login(UserInfo userInfo) {
         //Shiro实现登录
         UsernamePasswordToken token = new UsernamePasswordToken(userInfo.getUsername(), userInfo.getPassword());
         Subject subject = SecurityUtils.getSubject();
