@@ -36,11 +36,11 @@ public class LoginController {
         //根据不同用户权限返回对应页面
         subject.login(token);
         if (subject.hasRole("admin")) {
-            return "redirect:admin/showStudent";
+            return "redirect:admin/course_list";
         } else if (subject.hasRole("teacher")) {
-            return "redirect:teacher/showCourse";
+            return "redirect:teacher/course_list";
         } else if (subject.hasRole("student")) {
-            return "redirect:student/showCourse";
+            return "redirect:student/course_list/1";
         }
         return "redirect:login";
     }
