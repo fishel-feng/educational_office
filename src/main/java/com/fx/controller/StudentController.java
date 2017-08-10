@@ -43,6 +43,9 @@ public class StudentController {
         return "student/finishedCourse";
     }
 
-
+    @RequestMapping("reset_password")
+    public String passwordRest() throws Exception {
+        return "student/resetPassword";
+    }
 
 }

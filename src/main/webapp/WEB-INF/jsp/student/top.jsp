@@ -15,9 +15,9 @@
             <!--加入导航条标题-->
             <div class="navbar navbar-default" role="navigation">
                 　<div class="navbar-header">
-                　    <a href="##" class="navbar-brand">教务信息查询系统(学生)</a>
+                　    <a href="#" class="navbar-brand">教务信息查询系统(学生)</a>
                 　</div>
-                <form action="##" class="navbar-form navbar-right" rol="search">
+                <form action="#" class="navbar-form navbar-right" rel="search">
                     <div class="dropdown">
                         <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" style="margin-right: 20px; ">
                             <%--登录用户名--%>
@@ -34,7 +34,7 @@
                             <!-分割线--->
                             <li role="presentation" class="divider"></li>
                             <li role="presentation">
-                                <a role="menuitem" tabindex="-1" href="/logout">
+                                <a role="menuitem" tabindex="-1" href="${pageContext.request.contextPath}/logout">
                                     <span class="glyphicon glyphicon-off pull-right"></span>
                                     注销
                                 </a>
