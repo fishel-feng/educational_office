@@ -10,4 +10,8 @@ public interface CourseService {
     int getCourseCount();
 
     List<Course> findByPage(PageBean pageBean);
+
+    int getCountByTeacher(Integer teacherId);
+
+    List<Course> findByTeacherByPage(PageBean pageBean,Integer teacherId);
 }

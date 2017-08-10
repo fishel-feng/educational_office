@@ -25,4 +25,17 @@ public class CourseServiceImpl implements CourseService {
         int offset=pageBean.getPageSize();
         return courseMapper.findByPage(start,offset);
     }
+
+    @Override
+    public int getCountByTeacher(Integer teacherId) {
+        return courseMapper.getCountByTeacher(teacherId);
+    }
+
+    @Override
+    public List<Course> findByTeacherByPage(PageBean pageBean, Integer teacherId) {
+        int start=pageBean.getPageSize()*(pageBean.getCurrentPage()-1);
+        int offset=pageBean.getPageSize();
+        return courseMapper.findByTeacherByPage(start,offset,teacherId);
+    }
+
 }

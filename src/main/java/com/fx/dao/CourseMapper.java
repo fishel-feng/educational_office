@@ -20,5 +20,9 @@ public interface CourseMapper {
 
     int getCourseCount();
 
-    List<Course> findByPage(@Param("start") int start,@Param("offset") int offset);
+    List<Course> findByPage(@Param("start") int start, @Param("offset") int offset);
+
+    int getCountByTeacher(Integer teacherId);
+
+    List<Course> findByTeacherByPage(@Param("start") int start, @Param("offset") int offset, @Param("teacherId") Integer teacherId);
 }

@@ -32,6 +32,17 @@
         FROM course
         ORDER BY course_id LIMIT #{start},#{offset}
     </select>
+    <select id="getCountByTeacher" resultType="java.lang.Integer">
+        SELECT count(0)
+        FROM course
+        WHERE teacher_id = #{teacherId}
+    </select>
+    <select id="findByTeacherByPage" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM course WHERE teacher_id=#{teacherId}
+        ORDER BY course_id LIMIT #{start},#{offset}
+    </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
         DELETE FROM course
         WHERE course_id = #{courseId,jdbcType=INTEGER}
