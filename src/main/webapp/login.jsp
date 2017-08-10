@@ -29,7 +29,7 @@
     <div class="row" style="margin-top: 280px; ">
         <div class="col-md-4"></div>
         <div class="col-md-4" id="login-box">
-            <form class="form-horizontal" action="${pageContext.request.getContextPath()}/login"
+            <form class="form-horizontal" action="login"
                   id="from1" method="post">
                 <div class="form-group">
                     <label class="col-sm-3 control-label">用户id</label>

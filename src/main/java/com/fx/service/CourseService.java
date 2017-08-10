@@ -7,9 +7,7 @@ import java.util.List;
 
 public interface CourseService {
 
-    int getCourseCount();
-
-    List<Course> findByPage(PageBean pageBean);
+    PageBean findByPage(Integer currentPage);
 
     int getCountByTeacher(Integer teacherId);
 

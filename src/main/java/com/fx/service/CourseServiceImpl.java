@@ -15,15 +15,14 @@ public class CourseServiceImpl implements CourseService {
     private CourseMapper courseMapper;
 
     @Override
-    public int getCourseCount() {
-        return courseMapper.getCourseCount();
-    }
-
-    @Override
-    public List<Course> findByPage(PageBean pageBean) {
+    public PageBean findByPage(Integer currentPage) {
+        PageBean pageBean=new PageBean();
+        pageBean.setCurrentPage(currentPage);
+        pageBean.setTotalRows(courseMapper.getCourseCount());
         int start=pageBean.getPageSize()*(pageBean.getCurrentPage()-1);
         int offset=pageBean.getPageSize();
-        return courseMapper.findByPage(start,offset);
+        pageBean.setItems(courseMapper.findByPage(start,offset));
+        return pageBean;
     }
 
     @Override

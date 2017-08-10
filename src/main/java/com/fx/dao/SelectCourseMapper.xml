@@ -1,40 +1,100 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.fx.dao.SelectCourseMapper" >
-  <resultMap id="BaseResultMap" type="com.fx.entity.SelectCourse" >
-    <result column="course_id" property="courseId" jdbcType="INTEGER" />
-    <result column="student_id" property="studentId" jdbcType="INTEGER" />
-    <result column="mark" property="mark" jdbcType="INTEGER" />
-  </resultMap>
-  <insert id="insert" parameterType="com.fx.entity.SelectCourse" >
-    insert into select_course (course_id, student_id, mark
-      )
-    values (#{courseId,jdbcType=INTEGER}, #{studentId,jdbcType=INTEGER}, #{mark,jdbcType=INTEGER}
-      )
-  </insert>
-  <insert id="insertSelective" parameterType="com.fx.entity.SelectCourse" >
-    insert into select_course
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="courseId != null" >
-        course_id,
-      </if>
-      <if test="studentId != null" >
-        student_id,
-      </if>
-      <if test="mark != null" >
-        mark,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="courseId != null" >
-        #{courseId,jdbcType=INTEGER},
-      </if>
-      <if test="studentId != null" >
-        #{studentId,jdbcType=INTEGER},
-      </if>
-      <if test="mark != null" >
-        #{mark,jdbcType=INTEGER},
-      </if>
-    </trim>
-  </insert>
+<mapper namespace="com.fx.dao.SelectCourseMapper">
+    <resultMap id="BaseResultMap" type="com.fx.entity.SelectCourse">
+        <result column="course_id" property="courseId" jdbcType="INTEGER"/>
+        <result column="student_id" property="studentId" jdbcType="INTEGER"/>
+        <result column="mark" property="mark" jdbcType="INTEGER"/>
+    </resultMap>
+    <resultMap id="CourseWithMarkResultMap" type="com.fx.entity.CourseWithMark">
+        <id column="course_id" property="courseId" jdbcType="INTEGER"/>
+        <result column="course_name" property="courseName" jdbcType="VARCHAR"/>
+        <result column="teacher_id" property="teacherId" jdbcType="INTEGER"/>
+        <result column="course_time" property="courseTime" jdbcType="VARCHAR"/>
+        <result column="classroom" property="classroom" jdbcType="VARCHAR"/>
+        <result column="course_week" property="courseWeek" jdbcType="INTEGER"/>
+        <result column="course_type" property="courseType" jdbcType="VARCHAR"/>
+        <result column="college_id" property="collegeId" jdbcType="INTEGER"/>
+        <result column="score" property="score" jdbcType="INTEGER"/>
+        <result column="mark" property="mark" jdbcType="INTEGER"/>
+    </resultMap>
+    <insert id="insert" parameterType="com.fx.entity.SelectCourse">
+        INSERT INTO select_course (course_id, student_id, mark
+        )
+        VALUES (#{courseId,jdbcType=INTEGER}, #{studentId,jdbcType=INTEGER}, #{mark,jdbcType=INTEGER}
+        )
+    </insert>
+    <insert id="insertSelective" parameterType="com.fx.entity.SelectCourse">
+        insert into select_course
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="courseId != null">
+                course_id,
+            </if>
+            <if test="studentId != null">
+                student_id,
+            </if>
+            <if test="mark != null">
+                mark,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="courseId != null">
+                #{courseId,jdbcType=INTEGER},
+            </if>
+            <if test="studentId != null">
+                #{studentId,jdbcType=INTEGER},
+            </if>
+            <if test="mark != null">
+                #{mark,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+    <select id="getSelectedCourseCount" resultType="java.lang.Integer">
+        SELECT count(0)
+        FROM select_course
+        WHERE mark IS NULL
+    </select>
+    <select id="findSelectedCourseByPage" resultMap="CourseWithMarkResultMap">
+        SELECT
+            course.course_id,
+            course_name,
+            teacher_id,
+            course_time,
+            classroom,
+            course_week,
+            course_type,
+            college_id,
+            score,
+            mark
+        FROM select_course, course
+        WHERE course.course_id = select_course.course_id
+              AND student_id = #{studentId}
+              AND mark IS NULL
+        ORDER BY course.course_id
+        LIMIT #{start}, #{offset}
+    </select>
+    <select id="getFinishedCourseCount" resultType="java.lang.Integer">
+        SELECT count(0)
+        FROM select_course
+        WHERE mark IS NOT NULL
+    </select>
+    <select id="findFinishedCourseByPage" resultMap="CourseWithMarkResultMap">
+        SELECT
+            course.course_id,
+            course_name,
+            teacher_id,
+            course_time,
+            classroom,
+            course_week,
+            course_type,
+            college_id,
+            score,
+            mark
+        FROM select_course, course
+        WHERE course.course_id = select_course.course_id
+              AND student_id = #{studentId}
+              AND mark IS NOT NULL
+        ORDER BY course.course_id
+        LIMIT #{start}, #{offset}
+    </select>
 </mapper>
