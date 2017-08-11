@@ -57,7 +57,7 @@
                     <tbody>
                     <c:forEach items="${pageBean.items}" var="item">
                         <tr>
-                            <td>${item.courseId}</td>
+                            <td id="courseId">${item.courseId}</td>
                             <td>${item.courseName}</td>
                             <td>${item.teacherId}</td>
                             <td>${item.courseTime}</td>
@@ -67,10 +67,8 @@
                             <td>${item.score}</td>
                             <td>
                                 <button class="btn btn-default btn-xs btn-info"
-                                        onClick="location.href='${pageContext.request.getContextPath()}/student/stuSelectedCourse?id=${item.courseId}'">
-                                    选课
+                                        onclick="selectCourse(${item.courseId})">选课
                                 </button>
-                                <!--弹出框-->
                             </td>
                         </tr>
                     </c:forEach>
@@ -123,31 +121,40 @@
 </div>
 </body>
 <script type="text/javascript">
-    <%--设置菜单中--%>
-    $("#nav li:nth-child(1)").addClass("active")
-    <c:if test="${pagingVO != null}">
-    if (${pageBean.currentPage} == ${pagingVO.totalCount}) {
+    <%--菜单选中状态--%>
+    $("#nav").find("li:nth-child(1)").addClass("active");
+    <c:if test="${pageBean != null}">
+    if (${pageBean.currentPage} == ${pageBean.totalPage}) {
         $(".pagination li:last-child").addClass("disabled")
     }
-    ;
-
     if (${pageBean.currentPage} == ${1}) {
         $(".pagination li:nth-child(1)").addClass("disabled")
     }
-    ;
     </c:if>
 
     function confirmd() {
         var msg = "您真的确定要删除吗？！";
-        if (confirm(msg) == true) {
-            return true;
-        } else {
-            return false;
-        }
+        return confirm(msg) === true;
     }
 
     $("#sub").click(function () {
         $("#form1").submit();
     });
+
+    function selectCourse(id) {
+        $.ajax({
+            type: "POST",
+            url: "${pageContext.request.getContextPath()}/student/select",
+            data: {"courseId": id},
+            success: function (data) {
+                if (data === '1') {
+                    alert("选课成功");
+                    window.location.href = "${pageContext.request.getContextPath()}/student/course_selected/1";
+                } else {
+                    alert("对不起，你已经选过这门课了");
+                }
+            }
+        });
+    }
 </script>
 </html>
