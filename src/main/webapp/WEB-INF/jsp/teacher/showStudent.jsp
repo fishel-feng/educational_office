@@ -49,7 +49,7 @@
                                 <td>未打分</td>
                                 <td>
                                     <button class="btn btn-default btn-xs btn-info"
-                                            onClick="location.href='/teacher/mark?studentid=${item.studentId}&courseid=${item.courseId}'">
+                                            onClick="location.href='${pageContext.request.getContextPath()}/teacher/mark/${item.courseId}/${item.studentId}'">
                                         打分
                                     </button>
                                 </td>
