@@ -67,7 +67,8 @@
                             <td>${item.score}</td>
                             <td>
                                 <button class="btn btn-default btn-xs btn-info"
-                                        onClick="location.href='/teacher/gradeCourse?id=${item.courseId}'">成绩
+                                        onClick="location.href='${pageContext.request.getContextPath()}/teacher/student/${item.courseId}/1'">
+                                    成绩
                                 </button>
                                 <!--弹出框-->
                             </td>
@@ -79,7 +80,9 @@
                     <c:if test="${pageBean != null}">
                         <nav style="text-align: center">
                             <ul class="pagination">
-                                <li><a href="${pageContext.request.getContextPath()}/teacher/course_list/${pageBean.currentPage-1}">&laquo;上一页</a></li>
+                                <li>
+                                    <a href="${pageContext.request.getContextPath()}/teacher/course_list/${pageBean.currentPage-1}">&laquo;上一页</a>
+                                </li>
                                 <li class="active"><a href="">${pageBean.currentPage}</a></li>
                                 <c:if test="${pageBean.currentPage+1 <= pageBean.totalPage}">
                                     <li>
@@ -101,7 +104,9 @@
                                         <a href="${pageContext.request.getContextPath()}/teacher/course_list/${pageBean.currentPage+4}">${pageBean.currentPage+4}</a>
                                     </li>
                                 </c:if>
-                                <li><a href="${pageContext.request.getContextPath()}/teacher/course_list/${pageBean.totalPage}">最后一页&raquo;</a></li>
+                                <li>
+                                    <a href="${pageContext.request.getContextPath()}/teacher/course_list/${pageBean.totalPage}">最后一页&raquo;</a>
+                                </li>
                             </ul>
                         </nav>
                     </c:if>
