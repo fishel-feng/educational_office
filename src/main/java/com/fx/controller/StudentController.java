@@ -52,6 +52,16 @@ public class StudentController {
         return "" + row;
     }
 
+    @ResponseBody
+    @RequestMapping("drop")
+    public String dropCourse(HttpServletRequest request) {
+        String username = (String) SecurityUtils.getSubject().getPrincipal();
+        Integer studentId = Integer.valueOf(username);
+        Integer courseId = Integer.valueOf(request.getParameter("courseId"));
+        int row = selectCourseService.dropCourse(studentId, courseId);
+        return "" + row;
+    }
+
     @RequestMapping("course_finished/{currentPage}")
     public String finishedCourse(Model model, @PathVariable Integer currentPage) {
         String username = (String) SecurityUtils.getSubject().getPrincipal();

@@ -14,4 +14,9 @@ public class SelectCourseServiceImpl implements SelectCourseService {
     public int selectNewCourse(Integer studentId,Integer courseId) {
         return selectCourseMapper.insertIgnore(studentId,courseId);
     }
+
+    @Override
+    public int dropCourse(Integer studentId, Integer courseId) {
+        return selectCourseMapper.delete(studentId,courseId);
+    }
 }

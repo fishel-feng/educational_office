@@ -20,4 +20,6 @@ public interface SelectCourseMapper {
     List<CourseWithMark> findFinishedCourseByPage(@Param("studentId") Integer studentId, @Param("start") int start, @Param("offset") int offset);
 
     int insertIgnore(@Param("studentId") Integer studentId, @Param("courseId") Integer courseId);
+
+    int delete(@Param("studentId") Integer studentId, @Param("courseId") Integer courseId);
 }

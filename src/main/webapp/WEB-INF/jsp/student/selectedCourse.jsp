@@ -59,9 +59,8 @@
                             <td>${item.score}</td>
                             <td>
                                 <button class="btn btn-default btn-xs btn-info"
-                                        onClick="location.href='/student/outCourse?id=${item.courseId}'">退课
+                                        onClick="dropCourse(${item.courseId})">退课
                                 </button>
-                                <!--弹出框-->
                             </td>
                         </tr>
                     </c:forEach>
@@ -114,31 +113,41 @@
 </div>
 </body>
 <script type="text/javascript">
-    <%--设置菜单中--%>
-    $("#nav li:nth-child(2)").addClass("active")
-    <c:if test="${pagingVO != null}">
-    if (${pageBean.currentPage} == ${pagingVO.totalCount}) {
+    $("#nav").find("li:nth-child(2)").addClass("active");
+    <c:if test="${pageBean != null}">
+    if (${pageBean.currentPage} == ${pageBean.totalPage}) {
         $(".pagination li:last-child").addClass("disabled")
     }
-    ;
 
     if (${pageBean.currentPage} == ${1}) {
         $(".pagination li:nth-child(1)").addClass("disabled")
     }
-    ;
+
     </c:if>
 
     function confirmd() {
         var msg = "您真的确定要删除吗？！";
-        if (confirm(msg) == true) {
-            return true;
-        } else {
-            return false;
-        }
+        return confirm(msg) === true;
     }
 
     $("#sub").click(function () {
         $("#form1").submit();
     });
+
+    function dropCourse(id) {
+        $.ajax({
+            type: "POST",
+            url: "${pageContext.request.getContextPath()}/student/drop",
+            data: {"courseId": id},
+            success: function (data) {
+                if (data === '1') {
+                    alert("退课成功");
+                    window.location.reload();
+                } else {
+                    alert("未知错误");
+                }
+            }
+        });
+    }
 </script>
 </html>
