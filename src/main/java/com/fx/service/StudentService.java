@@ -9,4 +9,6 @@ public interface StudentService {
     PageBean findFinishedCourseByPage(String username, Integer currentPage);
 
     Student findById(Integer studentId);
+
+    PageBean findStudentWithCourse(Integer currentPage);
 }

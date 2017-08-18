@@ -5,6 +5,7 @@ import com.fx.dao.StudentMapper;
 import com.fx.entity.CourseWithMark;
 import com.fx.entity.PageBean;
 import com.fx.entity.Student;
+import com.fx.entity.StudentWithCollege;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -48,5 +49,17 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public Student findById(Integer studentId){
         return studentMapper.selectByPrimaryKey(studentId);
+    }
+
+    @Override
+    public PageBean findStudentWithCourse(Integer currentPage) {
+        PageBean pageBean=new PageBean();
+        pageBean.setCurrentPage(currentPage);
+        pageBean.setTotalRows(studentMapper.getCount());
+        int start=pageBean.getPageSize()*(pageBean.getCurrentPage()-1);
+        int offset=pageBean.getPageSize();
+        List<StudentWithCollege> studentWithColleges=studentMapper.findAllByPage(start,offset);
+        pageBean.setItems(studentWithColleges);
+        return pageBean;
     }
 }

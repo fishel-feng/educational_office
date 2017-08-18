@@ -1,100 +1,120 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.fx.dao.StudentMapper" >
-  <resultMap id="BaseResultMap" type="com.fx.entity.Student" >
-    <id column="student_id" property="studentId" jdbcType="INTEGER" />
-    <result column="name" property="name" jdbcType="VARCHAR" />
-    <result column="gender" property="gender" jdbcType="VARCHAR" />
-    <result column="bidrth_date" property="bidrthDate" jdbcType="DATE" />
-    <result column="enrolment_date" property="enrolmentDate" jdbcType="DATE" />
-    <result column="college_id" property="collegeId" jdbcType="INTEGER" />
-  </resultMap>
-  <sql id="Base_Column_List" >
+<mapper namespace="com.fx.dao.StudentMapper">
+    <resultMap id="BaseResultMap" type="com.fx.entity.Student">
+        <id column="student_id" property="studentId" jdbcType="INTEGER"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="gender" property="gender" jdbcType="VARCHAR"/>
+        <result column="bidrth_date" property="bidrthDate" jdbcType="DATE"/>
+        <result column="enrolment_date" property="enrolmentDate" jdbcType="DATE"/>
+        <result column="college_id" property="collegeId" jdbcType="INTEGER"/>
+    </resultMap>
+    <resultMap id="StudentWithCollegeMap" type="com.fx.entity.StudentWithCollege">
+        <id column="student_id" property="studentId" jdbcType="INTEGER"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="gender" property="gender" jdbcType="VARCHAR"/>
+        <result column="bidrth_date" property="bidrthDate" jdbcType="DATE"/>
+        <result column="enrolment_date" property="enrolmentDate" jdbcType="DATE"/>
+        <result column="college_id" property="collegeId" jdbcType="INTEGER"/>
+        <association property="college" column="college_id" select="com.fx.dao.CollegeMapper.selectByPrimaryKey"/>
+    </resultMap>
+    <sql id="Base_Column_List">
     student_id, name, gender, bidrth_date, enrolment_date, college_id
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select 
-    <include refid="Base_Column_List" />
-    from student
-    where student_id = #{studentId,jdbcType=INTEGER}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from student
-    where student_id = #{studentId,jdbcType=INTEGER}
-  </delete>
-  <insert id="insert" parameterType="com.fx.entity.Student" >
-    insert into student (student_id, name, gender, 
-      bidrth_date, enrolment_date, college_id
-      )
-    values (#{studentId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{gender,jdbcType=VARCHAR}, 
-      #{bidrthDate,jdbcType=DATE}, #{enrolmentDate,jdbcType=DATE}, #{collegeId,jdbcType=INTEGER}
-      )
-  </insert>
-  <insert id="insertSelective" parameterType="com.fx.entity.Student" >
-    insert into student
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="studentId != null" >
-        student_id,
-      </if>
-      <if test="name != null" >
-        name,
-      </if>
-      <if test="gender != null" >
-        gender,
-      </if>
-      <if test="bidrthDate != null" >
-        bidrth_date,
-      </if>
-      <if test="enrolmentDate != null" >
-        enrolment_date,
-      </if>
-      <if test="collegeId != null" >
-        college_id,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="studentId != null" >
-        #{studentId,jdbcType=INTEGER},
-      </if>
-      <if test="name != null" >
-        #{name,jdbcType=VARCHAR},
-      </if>
-      <if test="gender != null" >
-        #{gender,jdbcType=VARCHAR},
-      </if>
-      <if test="bidrthDate != null" >
-        #{bidrthDate,jdbcType=DATE},
-      </if>
-      <if test="enrolmentDate != null" >
-        #{enrolmentDate,jdbcType=DATE},
-      </if>
-      <if test="collegeId != null" >
-        #{collegeId,jdbcType=INTEGER},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.fx.entity.Student" >
-    update student
-    <set >
-      <if test="name != null" >
-        name = #{name,jdbcType=VARCHAR},
-      </if>
-      <if test="gender != null" >
-        gender = #{gender,jdbcType=VARCHAR},
-      </if>
-      <if test="bidrthDate != null" >
-        bidrth_date = #{bidrthDate,jdbcType=DATE},
-      </if>
-      <if test="enrolmentDate != null" >
-        enrolment_date = #{enrolmentDate,jdbcType=DATE},
-      </if>
-      <if test="collegeId != null" >
-        college_id = #{collegeId,jdbcType=INTEGER},
-      </if>
-    </set>
-    where student_id = #{studentId,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.fx.entity.Student" >
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from student
+        where student_id = #{studentId,jdbcType=INTEGER}
+    </select>
+    <select id="getCount" resultType="java.lang.Integer">
+        SELECT count(0)
+        FROM student
+    </select>
+    <select id="findAllByPage" resultMap="StudentWithCollegeMap">
+        SELECT *
+        FROM student, college
+        WHERE college.college_id = student.college_id
+        ORDER BY student_id
+        LIMIT #{start}, #{offset}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        DELETE FROM student
+        WHERE student_id = #{studentId,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.fx.entity.Student">
+        INSERT INTO student (student_id, name, gender,
+                             bidrth_date, enrolment_date, college_id
+        )
+        VALUES (#{studentId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{gender,jdbcType=VARCHAR},
+                #{bidrthDate,jdbcType=DATE}, #{enrolmentDate,jdbcType=DATE}, #{collegeId,jdbcType=INTEGER}
+        )
+    </insert>
+    <insert id="insertSelective" parameterType="com.fx.entity.Student">
+        insert into student
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="studentId != null">
+                student_id,
+            </if>
+            <if test="name != null">
+                name,
+            </if>
+            <if test="gender != null">
+                gender,
+            </if>
+            <if test="bidrthDate != null">
+                bidrth_date,
+            </if>
+            <if test="enrolmentDate != null">
+                enrolment_date,
+            </if>
+            <if test="collegeId != null">
+                college_id,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="studentId != null">
+                #{studentId,jdbcType=INTEGER},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="gender != null">
+                #{gender,jdbcType=VARCHAR},
+            </if>
+            <if test="bidrthDate != null">
+                #{bidrthDate,jdbcType=DATE},
+            </if>
+            <if test="enrolmentDate != null">
+                #{enrolmentDate,jdbcType=DATE},
+            </if>
+            <if test="collegeId != null">
+                #{collegeId,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.fx.entity.Student">
+        update student
+        <set>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="gender != null">
+                gender = #{gender,jdbcType=VARCHAR},
+            </if>
+            <if test="bidrthDate != null">
+                bidrth_date = #{bidrthDate,jdbcType=DATE},
+            </if>
+            <if test="enrolmentDate != null">
+                enrolment_date = #{enrolmentDate,jdbcType=DATE},
+            </if>
+            <if test="collegeId != null">
+                college_id = #{collegeId,jdbcType=INTEGER},
+            </if>
+        </set>
+        where student_id = #{studentId,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.fx.entity.Student">
     update student
     set name = #{name,jdbcType=VARCHAR},
       gender = #{gender,jdbcType=VARCHAR},
