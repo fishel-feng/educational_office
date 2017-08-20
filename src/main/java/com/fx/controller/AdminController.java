@@ -32,4 +32,5 @@ public class AdminController {
         model.addAttribute("pageBean", pageBean);
         return "admin/studentList";
     }
+
 }
