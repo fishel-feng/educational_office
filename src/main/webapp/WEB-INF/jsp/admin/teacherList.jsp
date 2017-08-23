@@ -5,7 +5,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>学生信息显示</title>
+    <title>教师信息显示</title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- 引入bootstrap -->
@@ -19,8 +19,9 @@
 </head>
 <body>
 <!-- 顶栏 -->
-<jsp:include page="top.jsp"/>
+
 <!-- 中间主体 -->
+<jsp:include page="top.jsp"/>
 <div class="container" id="content">
     <div class="row">
         <jsp:include page="menu.jsp"/>
@@ -28,17 +29,18 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <div class="row">
-                        <h1 class="col-md-5">学生名单管理</h1>
+                        <h1 class="col-md-5">教师名单管理</h1>
                         <form class="bs-example bs-example-form col-md-5" role="form" style="margin: 20px 0 10px 0;"
-                              action="/admin/selectStudent" id="form1" method="post">
+                              action="/admin/selectTeacher" id="form1" method="post">
                             <div class="input-group">
                                 <input type="text" class="form-control" placeholder="请输入姓名" name="findByName">
-                                <span class="input-group-addon btn" id="sub">搜索</span>
+                                <span class="input-group-addon btn" onclick="document.getElementById('form1').submit"
+                                      id="sub">搜索</span>
                             </div>
                         </form>
                         <button class="btn btn-default col-md-2" style="margin-top: 20px"
-                                onClick="location.href='/admin/addStudent'">
-                            添加用户信息
+                                onClick="location.href='/admin/addTeacher'">
+                            添加教师信息
                             <span class="glyphicon glyphicon-plus"></span>
                         </button>
 
@@ -47,11 +49,13 @@
                 <table class="table table-bordered">
                     <thead>
                     <tr>
-                        <th>学号</th>
+                        <th>教师编号</th>
                         <th>姓名</th>
                         <th>性别</th>
                         <th>出生年份</th>
-                        <th>入学时间</th>
+                        <th>学历</th>
+                        <th>职称</th>
+                        <th>入职年份</th>
                         <th>学院</th>
                         <th>操作</th>
                     </tr>
@@ -59,19 +63,17 @@
                     <tbody>
                     <c:forEach items="${pageBean.items}" var="item">
                         <tr>
-                            <td>${item.studentId}</td>
+                            <td>${item.teacherId}</td>
                             <td>${item.name}</td>
                             <td>${item.gender}</td>
-                            <td><fmt:formatDate value="${item.bidrthDate}" dateStyle="medium"/></td>
-                            <td><fmt:formatDate value="${item.enrolmentDate}" dateStyle="medium"/></td>
+                            <td><fmt:formatDate value="${item.birthDate}" dateStyle="medium"/></td>
+                            <td>${item.degree}</td>
+                            <td>${item.title}</td>
+                            <td><fmt:formatDate value="${item.enrolmentdate}" dateStyle="medium"/></td>
                             <td>${item.college.collegeName}</td>
                             <td>
-                                <button class="btn btn-default btn-xs btn-info"
-                                        onClick="">修改
-                                </button>
-                                <button class="btn btn-default btn-xs btn-danger btn-primary"
-                                        onClick="">删除
-                                </button>
+                                <button class="btn btn-default btn-xs btn-info" onClick="">修改</button>
+                                <button class="btn btn-default btn-xs btn-danger btn-primary" onClick="">删除</button>
                                 <!--弹出框-->
                             </td>
                         </tr>
@@ -82,29 +84,29 @@
                     <c:if test="${pagingVO != null}">
                         <nav style="text-align: center">
                             <ul class="pagination">
-                                <li><a href="/admin/showStudent?page=${pagingVO.upPageNo}">&laquo;上一页</a></li>
+                                <li><a href="/admin/showTeacher?page=${pagingVO.upPageNo}">&laquo;上一页</a></li>
                                 <li class="active"><a href="">${pagingVO.curentPageNo}</a></li>
                                 <c:if test="${pagingVO.curentPageNo+1 <= pagingVO.totalCount}">
                                     <li>
-                                        <a href="/admin/showStudent?page=${pagingVO.curentPageNo+1}">${pagingVO.curentPageNo+1}</a>
+                                        <a href="/admin/showTeacher?page=${pagingVO.curentPageNo+1}">${pagingVO.curentPageNo+1}</a>
                                     </li>
                                 </c:if>
                                 <c:if test="${pagingVO.curentPageNo+2 <= pagingVO.totalCount}">
                                     <li>
-                                        <a href="/admin/showStudent?page=${pagingVO.curentPageNo+2}">${pagingVO.curentPageNo+2}</a>
+                                        <a href="/admin/showTeacher?page=${pagingVO.curentPageNo+2}">${pagingVO.curentPageNo+2}</a>
                                     </li>
                                 </c:if>
                                 <c:if test="${pagingVO.curentPageNo+3 <= pagingVO.totalCount}">
                                     <li>
-                                        <a href="/admin/showStudent?page=${pagingVO.curentPageNo+3}">${pagingVO.curentPageNo+3}</a>
+                                        <a href="/admin/showTeacher?page=${pagingVO.curentPageNo+3}">${pagingVO.curentPageNo+3}</a>
                                     </li>
                                 </c:if>
                                 <c:if test="${pagingVO.curentPageNo+4 <= pagingVO.totalCount}">
                                     <li>
-                                        <a href="/admin/showStudent?page=${pagingVO.curentPageNo+4}">${pagingVO.curentPageNo+4}</a>
+                                        <a href="/admin/showTeacher?page=${pagingVO.curentPageNo+4}">${pagingVO.curentPageNo+4}</a>
                                     </li>
                                 </c:if>
-                                <li><a href="/admin/showStudent?page=${pagingVO.totalCount}">最后一页&raquo;</a></li>
+                                <li><a href="/admin/showTeacher?page=${pagingVO.totalCount}">最后一页&raquo;</a></li>
                             </ul>
                         </nav>
                     </c:if>
@@ -121,20 +123,7 @@
 </div>
 </body>
 <script type="text/javascript">
-    $("#nav li:nth-child(2)").addClass("active");
-
-    function confirmd() {
-        var msg = "您真的确定要删除吗？！";
-        if (confirm(msg) == true) {
-            return true;
-        } else {
-            return false;
-        }
-    };
-
-    $("#sub").click(function () {
-        $("#form1").submit();
-    });
+    $("#nav li:nth-child(3)").addClass("active")
 
     <c:if test="${pagingVO != null}">
     if (${pagingVO.curentPageNo} == ${pagingVO.totalCount}) {
@@ -147,5 +136,18 @@
     }
     ;
     </c:if>
+
+    function confirmd() {
+        var msg = "您真的确定要删除吗？！";
+        if (confirm(msg) == true) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    $("#sub").click(function () {
+        $("#form1").submit();
+    });
 </script>
 </html>

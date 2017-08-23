@@ -41,7 +41,7 @@ public class AdminController {
     public String showTeacher(Model model, @PathVariable Integer currentPage) {
         PageBean pageBean = teacherService.findTeacherWithCourse(currentPage);
         model.addAttribute("pageBean", pageBean);
-        return "admin/studentList";
+        return "admin/teacherList";
     }
 
 }
