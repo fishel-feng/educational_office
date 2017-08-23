@@ -42,6 +42,12 @@
         ORDER BY teacher_id
         LIMIT #{start}, #{offset}
     </select>
+    <select id="findAll" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM teacher
+        ORDER BY teacher_id
+    </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
         DELETE FROM teacher
         WHERE teacher_id = #{teacherId,jdbcType=INTEGER}

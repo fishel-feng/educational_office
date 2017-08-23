@@ -1,6 +1,7 @@
 package com.fx.service;
 
 import com.fx.dao.CourseMapper;
+import com.fx.entity.Course;
 import com.fx.entity.PageBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,6 +32,11 @@ public class CourseServiceImpl implements CourseService {
         int offset=pageBean.getPageSize();
         pageBean.setItems(courseMapper.findByTeacherByPage(start,offset,teacherId));
         return pageBean;
+    }
+
+    @Override
+    public Course findById(Integer courseId) {
+        return courseMapper.selectByPrimaryKey(courseId);
     }
 
 

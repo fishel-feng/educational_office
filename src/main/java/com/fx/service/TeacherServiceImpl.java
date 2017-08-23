@@ -2,6 +2,7 @@ package com.fx.service;
 
 import com.fx.dao.TeacherMapper;
 import com.fx.entity.PageBean;
+import com.fx.entity.Teacher;
 import com.fx.entity.TeacherWithCollege;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,5 +25,10 @@ public class TeacherServiceImpl implements TeacherService {
         List<TeacherWithCollege> teacherWithColleges=teacherMapper.findAllByPage(start,offset);
         pageBean.setItems(teacherWithColleges);
         return pageBean;
+    }
+
+    @Override
+    public List<Teacher> findAll() {
+        return teacherMapper.findAll();
     }
 }

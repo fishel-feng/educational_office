@@ -22,4 +22,6 @@ public interface TeacherMapper {
     int getCount();
 
     List<TeacherWithCollege> findAllByPage(@Param("start") int start, @Param("offset") int offset);
+
+    List<Teacher> findAll();
 }
