@@ -1,19 +1,14 @@
 package com.fx.controller;
 
-import com.fx.entity.College;
-import com.fx.entity.Course;
-import com.fx.entity.PageBean;
-import com.fx.entity.Teacher;
+import com.fx.entity.*;
 import com.fx.exception.CustomException;
-import com.fx.service.CollegeService;
-import com.fx.service.CourseService;
-import com.fx.service.StudentService;
-import com.fx.service.TeacherService;
+import com.fx.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.util.List;
 
@@ -33,6 +28,9 @@ public class AdminController {
     @Autowired
     private CollegeService collegeService;
 
+    @Autowired
+    private UserInfoService userInfoService;
+
     @RequestMapping("course_list/{currentPage}")
     public String showCourse(Model model, @PathVariable Integer currentPage) {
         PageBean pageBean = courseService.findByPage(currentPage);
@@ -40,7 +38,7 @@ public class AdminController {
         return "admin/courseList";
     }
 
-    @RequestMapping("course_edit/{courseId}")
+    @RequestMapping(value = "course_edit/{courseId}", method = RequestMethod.GET)
     public String changeCourseUI(Model model, @PathVariable Integer courseId) throws CustomException {
         if (courseId == null) {
             return "redirect:/admin/courseList";
@@ -69,6 +67,26 @@ public class AdminController {
         PageBean pageBean = teacherService.findTeacherWithCourse(currentPage);
         model.addAttribute("pageBean", pageBean);
         return "admin/teacherList";
+    }
+
+    @RequestMapping("/user_reset")
+    public String resetUser(UserInfo userInfo) throws Exception {
+        UserInfo user = userInfoService.findByName(userInfo.getUsername());
+        if (user != null) {
+            if (user.getRoleId() == 3) {
+                throw new CustomException("该账户为管理员账户，没法修改");
+            }
+            user.setPassword(userInfo.getPassword());
+            userInfoService.updateByName(userInfo.getUsername(), user);
+        } else {
+            throw new CustomException("没找到该用户");
+        }
+        return "admin/userReset";
+    }
+
+    @RequestMapping("/password_reset")
+    public String resetPassword(UserInfo userInfo) {
+        return "admin/passwordReset";
     }
 
 }
