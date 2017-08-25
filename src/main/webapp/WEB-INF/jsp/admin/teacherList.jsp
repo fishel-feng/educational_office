@@ -39,7 +39,7 @@
                             </div>
                         </form>
                         <button class="btn btn-default col-md-2" style="margin-top: 20px"
-                                onClick="location.href='/admin/addTeacher'">
+                                onClick="location.href='${pageContext.request.getContextPath()}/admin/teacher_add'">
                             添加教师信息
                             <span class="glyphicon glyphicon-plus"></span>
                         </button>
