@@ -55,6 +55,15 @@ public class AdminController {
         return "admin/courseEdit";
     }
 
+    @RequestMapping("course_add")
+    public String addCourse(Model model){
+        List<Teacher> teacherList = teacherService.findAll();
+        List<College> collegeList = collegeService.findAll();
+        model.addAttribute("teacherList", teacherList);
+        model.addAttribute("collegeList", collegeList);
+        return "admin/courseAdd";
+    }
+
     @RequestMapping("/student_list/{currentPage}")
     public String showStudent(Model model, @PathVariable Integer currentPage) {
         PageBean pageBean = studentService.findStudentWithCourse(currentPage);
@@ -62,11 +71,25 @@ public class AdminController {
         return "admin/studentList";
     }
 
+    @RequestMapping("student_add")
+    public String addStudent(Model model){
+        List<College> collegeList = collegeService.findAll();
+        model.addAttribute("collegeList", collegeList);
+        return "admin/studentAdd";
+    }
+
     @RequestMapping("/teacher_list/{currentPage}")
     public String showTeacher(Model model, @PathVariable Integer currentPage) {
         PageBean pageBean = teacherService.findTeacherWithCourse(currentPage);
         model.addAttribute("pageBean", pageBean);
         return "admin/teacherList";
+    }
+
+    @RequestMapping("teacher_add")
+    public String addTeacher(Model model){
+        List<College> collegeList = collegeService.findAll();
+        model.addAttribute("collegeList", collegeList);
+        return "admin/teacherAdd";
     }
 
     @RequestMapping("/user_reset")
