@@ -81,32 +81,36 @@
                     </tbody>
                 </table>
                 <div class="panel-footer">
-                    <c:if test="${pagingVO != null}">
+                    <c:if test="${pageBean != null}">
                         <nav style="text-align: center">
                             <ul class="pagination">
-                                <li><a href="/admin/showTeacher?page=${pagingVO.upPageNo}">&laquo;上一页</a></li>
-                                <li class="active"><a href="">${pagingVO.curentPageNo}</a></li>
-                                <c:if test="${pagingVO.curentPageNo+1 <= pagingVO.totalCount}">
+                                <li>
+                                    <a href="${pageContext.request.getContextPath()}/admin/teacher_list/{currentPage}${pageBean.currentPage-1}">&laquo;上一页</a>
+                                </li>
+                                <li class="active"><a href="">${pageBean.currentPage}</a></li>
+                                <c:if test="${pageBean.currentPage+1 <= pageBean.totalPage}">
                                     <li>
-                                        <a href="/admin/showTeacher?page=${pagingVO.curentPageNo+1}">${pagingVO.curentPageNo+1}</a>
+                                        <a href="${pageContext.request.getContextPath()}/admin/teacher_list/${pageBean.currentPage+1}">${pageBean.currentPage+1}</a>
                                     </li>
                                 </c:if>
-                                <c:if test="${pagingVO.curentPageNo+2 <= pagingVO.totalCount}">
+                                <c:if test="${pageBean.currentPage+2 <= pageBean.totalPage}">
                                     <li>
-                                        <a href="/admin/showTeacher?page=${pagingVO.curentPageNo+2}">${pagingVO.curentPageNo+2}</a>
+                                        <a href="${pageContext.request.getContextPath()}/admin/teacher_list/${pageBean.currentPage+2}">${pageBean.currentPage+2}</a>
                                     </li>
                                 </c:if>
-                                <c:if test="${pagingVO.curentPageNo+3 <= pagingVO.totalCount}">
+                                <c:if test="${pageBean.currentPage+3 <= pageBean.totalPage}">
                                     <li>
-                                        <a href="/admin/showTeacher?page=${pagingVO.curentPageNo+3}">${pagingVO.curentPageNo+3}</a>
+                                        <a href="${pageContext.request.getContextPath()}/admin/teacher_list/${pageBean.currentPage+3}">${pageBean.currentPage+3}</a>
                                     </li>
                                 </c:if>
-                                <c:if test="${pagingVO.curentPageNo+4 <= pagingVO.totalCount}">
+                                <c:if test="${pageBean.currentPage+4 <= pageBean.totalPage}">
                                     <li>
-                                        <a href="/admin/showTeacher?page=${pagingVO.curentPageNo+4}">${pagingVO.curentPageNo+4}</a>
+                                        <a href="${pageContext.request.getContextPath()}/admin/teacher_list/${pageBean.currentPage+4}">${pageBean.currentPage+4}</a>
                                     </li>
                                 </c:if>
-                                <li><a href="/admin/showTeacher?page=${pagingVO.totalCount}">最后一页&raquo;</a></li>
+                                <li>
+                                    <a href="${pageContext.request.getContextPath()}/admin/teacher_list/${pageBean.totalPage}">最后一页&raquo;</a>
+                                </li>
                             </ul>
                         </nav>
                     </c:if>
@@ -125,13 +129,13 @@
 <script type="text/javascript">
     $("#nav li:nth-child(3)").addClass("active")
 
-    <c:if test="${pagingVO != null}">
-    if (${pagingVO.curentPageNo} == ${pagingVO.totalCount}) {
+    <c:if test="${pageBean != null}">
+    if (${pageBean.currentPage} == ${pageBean.totalPage}) {
         $(".pagination li:last-child").addClass("disabled")
     }
     ;
 
-    if (${pagingVO.curentPageNo} == ${1}) {
+    if (${pageBean.currentPage} == ${1}) {
         $(".pagination li:nth-child(1)").addClass("disabled")
     }
     ;
