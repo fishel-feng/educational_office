@@ -130,7 +130,7 @@
 
     var degreeSelect = $("#coursetype option");
     for (var i = 0; i < coursetypeSelect.length; i++) {
-        if (coursetypeSelect[i].value == '${course.coursetype}') {
+        if (coursetypeSelect[i].value === '${course.coursetype}') {
             coursetypeSelect[i].selected = true;
         }
     }
