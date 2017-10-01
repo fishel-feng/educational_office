@@ -123,7 +123,7 @@
 
     var collegeSelect = $("#college option");
     for (var i = 0; i < collegeSelect.length; i++) {
-        if (collegeSelect[i].value == '${course.collegeid}') {
+        if (collegeSelect[i].value === '${course.collegeid}') {
             collegeSelect[i].selected = true;
         }
     }
